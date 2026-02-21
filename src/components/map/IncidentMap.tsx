@@ -1,0 +1,338 @@
+import { useEffect, useRef, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, CircleMarker, LayerGroup } from 'react-leaflet';
+import { LatLngExpression, Icon, DivIcon } from 'leaflet';
+import { mockReports, mockAlerts } from '@/data/mockData';
+import { IncidentBadge } from '@/components/ui/incident-badge';
+import { SeverityIndicator } from '@/components/ui/severity-indicator';
+import { StatusBadge } from '@/components/ui/status-badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Filter,
+  Layers,
+  ZoomIn,
+  ZoomOut,
+  Locate,
+  MapPin,
+  X,
+  ExternalLink,
+  Clock,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { IncidentType, Report, incidentTypeConfig } from '@/types';
+import { format } from 'date-fns';
+
+const NIGERIA_CENTER: LatLngExpression = [9.0820, 8.6753];
+
+function createIncidentIcon(type: IncidentType, severity: number) {
+  const colors: Record<IncidentType, string> = {
+    flood: '#2596be',
+    rain: '#4aa8d8',
+    storm: '#7c5bb0',
+    heat: '#e87f3e',
+    waste: '#8b6914',
+    pollution: '#9b59b6',
+    'water-scarcity': '#e67e22',
+    hazard: '#e74c3c',
+  };
+
+  return new DivIcon({
+    html: `
+      <div class="relative flex items-center justify-center">
+        <div class="absolute w-8 h-8 rounded-full opacity-30 animate-ping" style="background-color: ${colors[type]}"></div>
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg" style="background-color: ${colors[type]}">
+          ${severity}
+        </div>
+      </div>
+    `,
+    className: 'custom-incident-marker',
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+  });
+}
+
+function MapControls() {
+  const map = useMap();
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        map.setView([pos.coords.latitude, pos.coords.longitude], 14);
+      }, (err) => {
+        console.warn('Geolocation failed or was denied:', err);
+      });
+    }
+  }, [map]);
+
+  return (
+    <div className="absolute right-4 top-4 z-[1000] flex flex-col gap-2">
+      <Button
+        size="icon"
+        variant="secondary"
+        className="h-10 w-10 bg-card text-foreground shadow-md hover:bg-accent hover:text-accent-foreground"
+        onClick={() => map.zoomIn()}
+      >
+        <ZoomIn size={18} />
+      </Button>
+      <Button
+        size="icon"
+        variant="secondary"
+        className="h-10 w-10 bg-card text-foreground shadow-md hover:bg-accent hover:text-accent-foreground"
+        onClick={() => map.zoomOut()}
+      >
+        <ZoomOut size={18} />
+      </Button>
+      <Button
+        size="icon"
+        variant="secondary"
+        className="h-10 w-10 bg-card text-foreground shadow-md hover:bg-accent hover:text-accent-foreground"
+        onClick={() => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+              map.setView([pos.coords.latitude, pos.coords.longitude], 14);
+            });
+          }
+        }}
+      >
+        <Locate size={18} />
+      </Button>
+    </div>
+  );
+}
+
+function AlertZones({ show }: { show: boolean }) {
+  if (!show) return null;
+
+  return (
+    <LayerGroup>
+      {mockAlerts
+        .filter((a) => a.active)
+        .map((alert) => (
+          <CircleMarker
+            key={alert.id}
+            center={[alert.latitude, alert.longitude]}
+            radius={alert.radius * 3}
+            pathOptions={{
+              color: 'rgba(239, 68, 68, 0.5)',
+              fillColor: 'rgba(239, 68, 68, 0.2)',
+              fillOpacity: 0.4,
+              weight: 2,
+            }}
+          />
+        ))}
+    </LayerGroup>
+  );
+}
+
+function IncidentMarkers({
+  reports,
+  onMarkerClick
+}: {
+  reports: Report[];
+  onMarkerClick: (report: Report) => void;
+}) {
+  return (
+    <LayerGroup>
+      {reports.map((report) => (
+        <Marker
+          key={report.id}
+          position={[report.latitude, report.longitude]}
+          icon={createIncidentIcon(report.type, report.severity)}
+          eventHandlers={{
+            click: () => onMarkerClick(report),
+          }}
+        />
+      ))}
+    </LayerGroup>
+  );
+}
+
+interface IncidentMapProps {
+  reports?: Report[];
+  className?: string;
+  showFilters?: boolean;
+  showLegend?: boolean;
+  height?: string;
+}
+
+export function IncidentMap({
+  reports = mockReports,
+  className,
+  showFilters = true,
+  showLegend = true,
+  height = '600px',
+}: IncidentMapProps) {
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [filterType, setFilterType] = useState<string>('all');
+  const [filterSeverity, setFilterSeverity] = useState<string>('all');
+  const [showAlertZones, setShowAlertZones] = useState(true);
+
+  const filteredReports = reports.filter((report) => {
+    if (filterType !== 'all' && report.type !== filterType) return false;
+    if (filterSeverity !== 'all' && report.severity !== parseInt(filterSeverity)) return false;
+    return true;
+  });
+
+  return (
+    <div className={cn('relative rounded-xl overflow-hidden', className)} style={{ height }}>
+      <MapContainer
+        center={NIGERIA_CENTER}
+        zoom={6}
+        className="h-full w-full"
+        zoomControl={false}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+
+        <MapControls />
+
+        {/* Alert Zones */}
+        <AlertZones show={showAlertZones} />
+
+        {/* Incident Markers */}
+        <IncidentMarkers
+          reports={filteredReports}
+          onMarkerClick={setSelectedReport}
+        />
+      </MapContainer>
+
+      {/* Filters Panel */}
+      {showFilters && (
+        <Card className="absolute left-4 top-4 z-[1000] p-4 w-64 bg-card/95 backdrop-blur-sm">
+          <div className="flex items-center gap-2 mb-4">
+            <Filter size={18} className="text-primary" />
+            <span className="font-semibold">Filters</span>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm text-muted-foreground mb-1.5 block">
+                Incident Type
+              </label>
+              <Select value={filterType} onValueChange={setFilterType}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All Types" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  {Object.entries(incidentTypeConfig).map(([key, config]) => (
+                    <SelectItem key={key} value={key}>
+                      {config.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <label className="text-sm text-muted-foreground mb-1.5 block">
+                Severity
+              </label>
+              <Select value={filterSeverity} onValueChange={setFilterSeverity}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All Levels" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Levels</SelectItem>
+                  <SelectItem value="5">Critical (5)</SelectItem>
+                  <SelectItem value="4">Severe (4)</SelectItem>
+                  <SelectItem value="3">Significant (3)</SelectItem>
+                  <SelectItem value="2">Moderate (2)</SelectItem>
+                  <SelectItem value="1">Minor (1)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="alerts"
+                checked={showAlertZones}
+                onCheckedChange={(c) => setShowAlertZones(c as boolean)}
+              />
+              <label htmlFor="alerts" className="text-sm cursor-pointer">
+                Show Alert Zones
+              </label>
+            </div>
+          </div>
+        </Card>
+      )
+      }
+
+      {/* Legend */}
+      {
+        showLegend && (
+          <Card className="absolute left-4 bottom-4 z-[1000] p-3 bg-card/95 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <Layers size={16} className="text-muted-foreground" />
+              <span className="text-sm font-medium">Legend</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              {Object.entries(incidentTypeConfig)
+                .slice(0, 6)
+                .map(([key, config]) => (
+                  <div key={key} className="flex items-center gap-1.5">
+                    <span
+                      className={cn('w-3 h-3 rounded-full', `incident-${key}`)}
+                    />
+                    <span className="text-muted-foreground">{config.label}</span>
+                  </div>
+                ))}
+            </div>
+          </Card>
+        )
+      }
+
+      {/* Selected Report Panel */}
+      {
+        selectedReport && (
+          <Card className="absolute right-4 bottom-4 z-[1000] p-4 w-80 bg-card/95 backdrop-blur-sm">
+            <div className="flex items-start justify-between mb-3">
+              <IncidentBadge type={selectedReport.type} />
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 -mr-2 -mt-2"
+                onClick={() => setSelectedReport(null)}
+              >
+                <X size={16} />
+              </Button>
+            </div>
+
+            <h4 className="font-semibold mb-2 line-clamp-2">
+              {selectedReport.locationName}
+            </h4>
+
+            <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
+              {selectedReport.description}
+            </p>
+
+            <div className="flex items-center gap-4 mb-3">
+              <SeverityIndicator level={selectedReport.severity} size="sm" />
+              <StatusBadge status={selectedReport.status} />
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+              <Clock size={14} />
+              {format(selectedReport.createdAt, 'MMM d, yyyy h:mm a')}
+            </div>
+
+            <Button className="w-full gap-2" size="sm">
+              View Details
+              <ExternalLink size={14} />
+            </Button>
+          </Card>
+        )
+      }
+    </div >
+  );
+}
