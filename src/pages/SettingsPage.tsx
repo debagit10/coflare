@@ -107,7 +107,7 @@ export default function SettingsPage() {
                             <CardHeader>
                                 <CardTitle>App Preferences</CardTitle>
                                 <CardDescription>
-                                    Customize your EcoWatch experience.
+                                    Customize your Co-flare experience.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
@@ -124,7 +124,7 @@ export default function SettingsPage() {
                                     <div className="space-y-0.5">
                                         <Label className="text-base">Location Services</Label>
                                         <p className="text-sm text-muted-foreground">
-                                            Allow EcoWatch to access your location for precise incident tagging.
+                                            Allow Co-flare to access your location for precise incident tagging.
                                         </p>
                                     </div>
                                     <Switch defaultChecked />

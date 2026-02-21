@@ -288,7 +288,7 @@ export function HowItWorksSection() {
         >
           <span className="text-primary font-semibold tracking-wider uppercase text-sm mb-3 block">Process</span>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
-            How EcoWatch Works
+            How Co-flare Works
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
             From spotting an incident to community action in just four simple steps. Built for speed and reliability.

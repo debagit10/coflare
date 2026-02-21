@@ -47,7 +47,7 @@ export function Footer() {
               <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center">
                 <Globe className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-xl text-white">EcoWatch</span>
+              <span className="font-bold text-xl text-white">Co-flare</span>
             </Link>
             <p className="text-sidebar-foreground/70 text-sm mb-6 max-w-xs">
               Community-powered environmental monitoring for a safer, more resilient future.
@@ -115,7 +115,7 @@ export function Footer() {
                     <DialogHeader>
                       <DialogTitle>Research Inquiry</DialogTitle>
                       <DialogDescription>
-                        Partner with us for academic or institutional research using EcoWatch data.
+                        Partner with us for academic or institutional research using Co-flare data.
                       </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={(e) => submitForm(e, 'research')} className="space-y-4">
@@ -154,7 +154,7 @@ export function Footer() {
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Partner with EcoWatch</DialogTitle>
+                      <DialogTitle>Partner with Co-flare</DialogTitle>
                       <DialogDescription>
                         Join forces with us to build resilient communities and scale environmental monitoring.
                       </DialogDescription>
@@ -215,7 +215,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-sidebar-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-sidebar-foreground/60">
-            © 2025 EcoWatch. All rights reserved.
+            © 2025 Co-flare. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <span className="text-sm text-sidebar-foreground/60">

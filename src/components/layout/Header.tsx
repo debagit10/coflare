@@ -68,7 +68,7 @@ export function Header() {
               'font-bold text-xl tracking-tight',
               isLanding && !isScrolled ? 'text-white' : 'text-foreground'
             )}>
-              EcoWatch
+              Co-flare
             </span>
           </Link>
 

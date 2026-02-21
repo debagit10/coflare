@@ -11,7 +11,7 @@ export default function TermsOfServicePage() {
                     <p className="text-muted-foreground mb-8 text-sm">Last updated: {new Date().toLocaleDateString()}</p>
 
                     <p>
-                        Please read these terms and conditions carefully before using the EcoWatch platform.
+                        Please read these terms and conditions carefully before using the Co-flare platform.
                     </p>
 
                     <h2 className="text-xl font-semibold mt-8 mb-4">1. Acceptance of Terms</h2>
@@ -37,7 +37,7 @@ export default function TermsOfServicePage() {
 
                     <h2 className="text-xl font-semibold mt-8 mb-4">4. Limitation of Liability</h2>
                     <p>
-                        EcoWatch relies on community-reported data. We do not guarantee the accuracy, completeness,
+                        Co-flare relies on community-reported data. We do not guarantee the accuracy, completeness,
                         or speed of incident reports. Always rely on official emergency broadcast systems for critical
                         life-saving information.
                     </p>

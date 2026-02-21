@@ -11,7 +11,7 @@ export default function CookiePolicyPage() {
                     <p className="text-muted-foreground mb-8 text-sm">Last updated: {new Date().toLocaleDateString()}</p>
 
                     <p>
-                        This Cookie Policy explains how EcoWatch utilizes cookies and similar technologies to recognize you
+                        This Cookie Policy explains how Co-flare utilizes cookies and similar technologies to recognize you
                         when you visit our platform.
                     </p>
 
@@ -33,7 +33,7 @@ export default function CookiePolicyPage() {
                     <p>
                         You have the right to decide whether to accept or reject cookies. You can exercise your cookie rights
                         by setting your preferences in your web browser controls. Note that restricting cookies may impact the
-                        functionality of the EcoWatch platform.
+                        functionality of the Co-flare platform.
                     </p>
                 </div>
             </main>

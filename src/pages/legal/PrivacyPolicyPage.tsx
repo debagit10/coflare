@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
                     <p className="text-muted-foreground mb-8 text-sm">Last updated: {new Date().toLocaleDateString()}</p>
 
                     <p>
-                        Welcome to EcoWatch. We respect your privacy and are committed to protecting your personal data.
+                        Welcome to Co-flare. We respect your privacy and are committed to protecting your personal data.
                         This privacy policy will inform you as to how we look after your personal data when you visit our
                         website and app and tell you about your privacy rights.
                     </p>

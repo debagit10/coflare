@@ -28,7 +28,7 @@ export function LoginForm() {
           </div>
         </Link>
         <CardTitle className="text-2xl">Welcome Back</CardTitle>
-        <CardDescription>Sign in to continue to EcoWatch</CardDescription>
+        <CardDescription>Sign in to continue to Co-flare</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="email" className="w-full">
@@ -163,7 +163,7 @@ export function RegisterForm() {
           </div>
         </Link>
         <CardTitle className="text-2xl">Create an Account</CardTitle>
-        <CardDescription>Join the EcoWatch community</CardDescription>
+        <CardDescription>Join the Co-flare community</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

@@ -7,6 +7,7 @@ import { SeverityIndicator } from '@/components/ui/severity-indicator';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -25,6 +26,7 @@ import {
   X,
   ExternalLink,
   Clock,
+  Loader2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { IncidentType, Report, incidentTypeConfig } from '@/types';
@@ -108,6 +110,18 @@ function MapControls() {
   );
 }
 
+function MapUpdater({ center }: { center: LatLngExpression | null }) {
+  const map = useMap();
+  useEffect(() => {
+    if (center) {
+      map.flyTo(center, 13, {
+        duration: 1.5
+      });
+    }
+  }, [center, map]);
+  return null;
+}
+
 function AlertZones({ show }: { show: boolean }) {
   if (!show) return null;
 
@@ -175,6 +189,33 @@ export function IncidentMap({
   const [filterSeverity, setFilterSeverity] = useState<string>('all');
   const [showAlertZones, setShowAlertZones] = useState(true);
 
+  const [addressQuery, setAddressQuery] = useState('');
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchCenter, setSearchCenter] = useState<LatLngExpression | null>(null);
+
+  useEffect(() => {
+    const searchAddress = async () => {
+      if (addressQuery.length < 3) {
+        setSuggestions([]);
+        return;
+      }
+      setIsSearching(true);
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressQuery)}&limit=5`);
+        const data = await res.json();
+        setSuggestions(data);
+      } catch (error) {
+        console.error('Failed to fetch address suggestions:', error);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    const timeoutId = setTimeout(searchAddress, 500);
+    return () => clearTimeout(timeoutId);
+  }, [addressQuery]);
+
   const filteredReports = reports.filter((report) => {
     if (filterType !== 'all' && report.type !== filterType) return false;
     if (filterSeverity !== 'all' && report.severity !== parseInt(filterSeverity)) return false;
@@ -204,7 +245,41 @@ export function IncidentMap({
           reports={filteredReports}
           onMarkerClick={setSelectedReport}
         />
+        <MapUpdater center={searchCenter} />
       </MapContainer>
+
+      {/* Search Overlay */}
+      <Card className="absolute left-1/2 -translate-x-1/2 top-4 z-[1000] p-2 w-[90%] max-w-md bg-card/95 backdrop-blur-sm shadow-md">
+        <div className="relative flex items-center">
+          <MapPin className="absolute left-3 text-muted-foreground" size={18} />
+          <Input
+            placeholder="Search for a location..."
+            className="pl-9 pr-10 border-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-10"
+            value={addressQuery}
+            onChange={(e) => setAddressQuery(e.target.value)}
+          />
+          {isSearching && (
+            <Loader2 className="absolute right-3 h-4 w-4 animate-spin text-muted-foreground" />
+          )}
+        </div>
+        {suggestions.length > 0 && (
+          <div className="absolute top-full left-0 w-full mt-2 bg-card border border-border rounded-md shadow-lg max-h-60 overflow-auto z-[1001]">
+            {suggestions.map((suggestion, index) => (
+              <div
+                key={index}
+                className="px-4 py-3 hover:bg-accent hover:text-accent-foreground cursor-pointer text-sm border-b last:border-0 transition-colors"
+                onClick={() => {
+                  setAddressQuery(suggestion.display_name);
+                  setSearchCenter([parseFloat(suggestion.lat), parseFloat(suggestion.lon)]);
+                  setSuggestions([]);
+                }}
+              >
+                {suggestion.display_name}
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
 
       {/* Filters Panel */}
       {showFilters && (

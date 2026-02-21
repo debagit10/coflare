@@ -14,13 +14,13 @@ export default function AboutPage() {
                         className="prose prose-lg dark:prose-invert max-w-none"
                     >
                         <h1 className="text-4xl md:text-5xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-                            About EcoWatch
+                            About Co-flare
                         </h1>
 
                         <div className="bg-card rounded-2xl p-8 shadow-sm border mb-12">
                             <h2 className="text-2xl font-semibold mb-4 text-primary">Our Mission</h2>
                             <p className="text-muted-foreground leading-relaxed">
-                                EcoWatch was founded on the principle that community empowerment is the most effective approach to addressing localized environmental issues. By creating a decentralized network of vigilant citizens, we aim to bridge the gap between people on the ground and the authorities capable of implementing broader changes.
+                                Co-flare was founded on the principle that community empowerment is the most effective approach to addressing localized environmental issues. By creating a decentralized network of vigilant citizens, we aim to bridge the gap between people on the ground and the authorities capable of implementing broader changes.
                             </p>
                         </div>
 
@@ -54,7 +54,7 @@ export default function AboutPage() {
                         <div className="text-center">
                             <h2 className="text-2xl font-semibold mb-4">Join Us In Protecting Our Home</h2>
                             <p className="text-muted-foreground mb-6">
-                                Whether you are an individual wanting to report a local hazard, or an organization looking to partner with us, there's a place for you in the EcoWatch movement.
+                                Whether you are an individual wanting to report a local hazard, or an organization looking to partner with us, there's a place for you in the Co-flare movement.
                             </p>
                         </div>
                     </motion.div>

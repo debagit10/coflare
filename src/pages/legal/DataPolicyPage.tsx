@@ -11,7 +11,7 @@ export default function DataPolicyPage() {
                     <p className="text-muted-foreground mb-8 text-sm">Last updated: {new Date().toLocaleDateString()}</p>
 
                     <p>
-                        EcoWatch's core mission revolves around the collection, analysis, and transparent distribution
+                        Co-flare's core mission revolves around the collection, analysis, and transparent distribution
                         of environmental data. This policy outlines how we handle the environmental data submitted.
                     </p>
 
@@ -24,7 +24,7 @@ export default function DataPolicyPage() {
 
                     <h2 className="text-xl font-semibold mt-8 mb-4">2. Data Ownership</h2>
                     <p>
-                        While you retain ownership of the photos and videos you submit, you grant EcoWatch a perpetual,
+                        While you retain ownership of the photos and videos you submit, you grant Co-flare a perpetual,
                         irrevocable license to utilize this data to improve environmental modeling and for public distribution.
                     </p>
 
