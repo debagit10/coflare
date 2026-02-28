@@ -57,19 +57,15 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center shadow-lg group-hover:shadow-glow transition-shadow">
-                <Globe className="w-5 h-5 text-white" />
-              </div>
-              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-success rounded-full border-2 border-background" />
-            </div>
-            <span className={cn(
-              'font-bold text-xl tracking-tight',
-              isLanding && !isScrolled ? 'text-white' : 'text-foreground'
-            )}>
-              Co-flare
-            </span>
+          <Link to="/" className="flex items-center group">
+            <img
+              src="/logo.png"
+              alt="Co-flare Logo"
+              className={cn(
+                "h-14 md:h-28 w-auto object-contain transition-transform group-hover:scale-105",
+                isLanding && !isScrolled ? "brightness-0 invert" : ""
+              )}
+            />
           </Link>
 
           {/* Desktop Navigation */}
