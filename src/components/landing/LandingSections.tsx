@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
   MapPin,
@@ -17,77 +17,79 @@ import {
   Wind,
   Trash2,
   AlertTriangle,
-} from 'lucide-react';
+} from "lucide-react";
 
 const features = [
   {
     icon: MapPin,
-    title: 'GPS Location Tracking',
-    description: 'Auto-detect incident locations with manual correction capability.',
+    title: "GPS Location Tracking",
+    description:
+      "Auto-detect incident locations with manual correction capability.",
   },
   {
     icon: Smartphone,
-    title: 'Offline-First Design',
-    description: 'Report incidents without internet. Auto-sync when connected.',
+    title: "Offline-First Design",
+    description: "Report incidents without internet. Auto-sync when connected.",
   },
   {
     icon: Shield,
-    title: 'Verified Reports',
-    description: 'Community moderation ensures data accuracy and reliability.',
+    title: "Verified Reports",
+    description: "Community moderation ensures data accuracy and reliability.",
   },
   {
     icon: BarChart3,
-    title: 'Analytics Dashboard',
-    description: 'Real-time insights, trends, and predictive analysis.',
+    title: "Analytics Dashboard",
+    description: "Real-time insights, trends, and predictive analysis.",
   },
   {
     icon: Bell,
-    title: 'Smart Alerts',
-    description: 'Push, SMS, and WhatsApp notifications for nearby incidents.',
+    title: "Smart Alerts",
+    description: "Push, SMS, and WhatsApp notifications for nearby incidents.",
   },
   {
     icon: Users,
-    title: 'Multi-Stakeholder',
-    description: 'Serves governments, NGOs, researchers, and citizens.',
+    title: "Multi-Stakeholder",
+    description: "Serves governments, NGOs, researchers, and citizens.",
   },
 ];
 
 const incidentTypes = [
-  { icon: Waves, label: 'Flooding', color: 'flood' },
-  { icon: CloudRain, label: 'Heavy Rain', color: 'rain' },
-  { icon: Thermometer, label: 'Heat Waves', color: 'heat' },
-  { icon: Wind, label: 'Pollution', color: 'pollution' },
-  { icon: Trash2, label: 'Waste Dumping', color: 'waste' },
-  { icon: AlertTriangle, label: 'Hazards', color: 'hazard' },
+  { icon: Waves, label: "Flooding", color: "flood" },
+  { icon: CloudRain, label: "Heavy Rain", color: "rain" },
+  { icon: Thermometer, label: "Heat Waves", color: "heat" },
+  { icon: Wind, label: "Pollution", color: "pollution" },
+  { icon: Trash2, label: "Waste Dumping", color: "waste" },
+  { icon: AlertTriangle, label: "Hazards", color: "hazard" },
 ];
 
 const stats = [
-  { value: '50K+', label: 'Reports Submitted' },
-  { value: '36', label: 'States Covered' },
-  { value: '1.2M', label: 'Citizens Protected' },
-  { value: '99.9%', label: 'Uptime' },
+  { value: "50K+", label: "Reports Submitted" },
+  { value: "36", label: "States Covered" },
+  { value: "1.2M", label: "Citizens Protected" },
+  { value: "99.9%", label: "Uptime" },
 ];
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center gradient-hero overflow-hidden">
-      {/* Animated Background Elements */}
+      {}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div
+          className="absolute bottom-1/4 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: "2s" }}
+        />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-3xl" />
       </div>
-
-      {/* Grid Pattern Overlay */}
+      {}
       <div
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='white'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")`,
         }}
       />
-
       <div className="container mx-auto px-4 pt-24 pb-16 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="flex justify-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -98,16 +100,26 @@ export function HeroSection() {
               Live monitoring across Nigeria
             </div>
           </motion.div>
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-6"
+          >
+            CO-FLARE:
+          </motion.h1>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+            className="text-2xl md:text-3xl lg:text-5xl font-bold text-white mb-6"
           >
-            Community-Powered
-            <br />
-            <span className="text-white/90">Environmental Monitoring</span>
+            Citizen Observatory for Flood Learning, Action, Resource and Early
+            Warning
           </motion.h1>
 
           <motion.p
@@ -116,53 +128,61 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto"
           >
-            Report floods, pollution, and environmental hazards. Help protect your community
-            with real-time data that empowers emergency responders and policymakers.
+            Report floods, pollution, and environmental hazards. Help protect
+            your community with real-time data that empowers emergency
+            responders and policymakers.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-          >
-            <Link to="/submit">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl hover:shadow-2xl px-8 py-6 text-lg gap-2">
-                Report an Incident
-                <ArrowRight size={20} />
-              </Button>
-            </Link>
-            <Link to="/map">
-              <Button size="lg" variant="outline" className="border-white/30 bg-transparent text-white hover:bg-white/10 px-8 py-6 text-lg gap-2">
-                <MapPin size={20} />
-                View Live Map
-              </Button>
-            </Link>
-          </motion.div>
-
-          {/* Incident Type Pills */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap items-center justify-center gap-3 mb-16"
-          >
-            {incidentTypes.map((type, index) => (
-              <motion.div
-                key={type.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white"
-              >
-                <type.icon size={18} />
-                <span className="text-sm font-medium">{type.label}</span>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
 
-        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+        >
+          <Link to="/submit">
+            <Button
+              size="lg"
+              className="bg-white text-primary hover:bg-white/90 shadow-xl hover:shadow-2xl px-8 py-6 text-lg gap-2"
+            >
+              Report an Incident
+              <ArrowRight size={20} />
+            </Button>
+          </Link>
+          <Link to="/map">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white/30 bg-transparent text-white hover:bg-white/10 px-8 py-6 text-lg gap-2"
+            >
+              <MapPin size={20} />
+              View Live Map
+            </Button>
+          </Link>
+        </motion.div>
+
+        {}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-wrap items-center justify-center gap-3 mb-16"
+        >
+          {incidentTypes.map((type, index) => (
+            <motion.div
+              key={type.label}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white"
+            >
+              <type.icon size={18} />
+              <span className="text-sm font-medium">{type.label}</span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -180,7 +200,7 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
+      {}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -244,32 +264,35 @@ export function FeaturesSection() {
 export function HowItWorksSection() {
   const steps = [
     {
-      number: '01',
-      title: 'Spot an Issue',
-      description: 'Witness flooding, pollution, or any environmental hazard in your area.',
+      number: "01",
+      title: "Spot an Issue",
+      description:
+        "Witness flooding, pollution, or any environmental hazard in your area.",
       icon: AlertTriangle,
-      color: 'from-orange-400 to-red-500'
+      color: "from-orange-400 to-red-500",
     },
     {
-      number: '02',
-      title: 'Report It',
-      description: 'Open the app, select incident type, add photos/videos, and submit.',
+      number: "02",
+      title: "Report It",
+      description:
+        "Open the app, select incident type, add photos/videos, and submit.",
       icon: Smartphone,
-      color: 'from-blue-400 to-cyan-500'
+      color: "from-blue-400 to-cyan-500",
     },
     {
-      number: '03',
-      title: 'Get Verified',
-      description: 'Our moderators verify the report for accuracy and reliability.',
+      number: "03",
+      title: "Get Verified",
+      description:
+        "Our moderators verify the report for accuracy and reliability.",
       icon: Shield,
-      color: 'from-green-400 to-emerald-500'
+      color: "from-green-400 to-emerald-500",
     },
     {
-      number: '04',
-      title: 'Alert Community',
-      description: 'Nearby residents receive alerts. Responders take action.',
+      number: "04",
+      title: "Alert Community",
+      description: "Nearby residents receive alerts. Responders take action.",
       icon: Bell,
-      color: 'from-purple-400 to-indigo-500'
+      color: "from-purple-400 to-indigo-500",
     },
   ];
 
@@ -286,12 +309,15 @@ export function HowItWorksSection() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <span className="text-primary font-semibold tracking-wider uppercase text-sm mb-3 block">Process</span>
+          <span className="text-primary font-semibold tracking-wider uppercase text-sm mb-3 block">
+            Process
+          </span>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
             How Co-flare Works
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            From spotting an incident to community action in just four simple steps. Built for speed and reliability.
+            From spotting an incident to community action in just four simple
+            steps. Built for speed and reliability.
           </p>
         </motion.div>
 
@@ -305,11 +331,17 @@ export function HowItWorksSection() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.15, type: 'spring', stiffness: 100 }}
+              transition={{
+                delay: index * 0.15,
+                type: "spring",
+                stiffness: 100,
+              }}
               className="relative group"
             >
               <div className="bg-background border shadow-sm rounded-2xl p-6 h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-2 relative z-10">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} shadow-lg mb-6 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} shadow-lg mb-6 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}
+                >
                   <step.icon className="w-8 h-8 text-white" />
                 </div>
 
@@ -354,13 +386,20 @@ export function CTASection() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/register">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 px-8 py-6 text-lg gap-2">
+              <Button
+                size="lg"
+                className="bg-white text-primary hover:bg-white/90 px-8 py-6 text-lg gap-2"
+              >
                 Get Started Free
                 <ArrowRight size={20} />
               </Button>
             </Link>
             <Link to="/dashboard">
-              <Button size="lg" variant="outline" className="border-white/30 bg-transparent text-white hover:bg-white/10 px-8 py-6 text-lg">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/30 bg-transparent text-white hover:bg-white/10 px-8 py-6 text-lg"
+              >
                 View Demo Dashboard
               </Button>
             </Link>

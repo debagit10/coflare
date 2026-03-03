@@ -4,62 +4,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* EcoWatch Environmental Platform Design System */
+
 
 @layer base {
   :root {
-    /* Core backgrounds */
+    
     --background: 210 20% 98%;
     --foreground: 215 25% 15%;
 
-    /* Card surfaces */
+    
     --card: 0 0% 100%;
     --card-foreground: 215 25% 15%;
 
-    /* Popover */
+    
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    /* Primary - Deep Ocean Blue */
+    
     --primary: 205 85% 35%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Forest Green */
+    
     --secondary: 152 55% 40%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Muted surfaces */
+    
     --muted: 210 15% 93%;
     --muted-foreground: 215 15% 45%;
 
-    /* Accent - Teal */
+    
     --accent: 175 60% 40%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive - Crisis Red */
+    
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Warning - Amber */
+    
     --warning: 38 95% 50%;
     --warning-foreground: 0 0% 10%;
 
-    /* Success - Leaf Green */
+    
     --success: 142 70% 40%;
     --success-foreground: 0 0% 100%;
 
-    /* Info - Sky Blue */
+    
     --info: 199 90% 48%;
     --info-foreground: 0 0% 100%;
 
-    /* Severity levels */
+    
     --severity-1: 142 70% 45%;
     --severity-2: 85 60% 50%;
     --severity-3: 45 90% 50%;
     --severity-4: 25 95% 55%;
     --severity-5: 0 80% 55%;
 
-    /* Incident type colors */
+    
     --flood: 205 85% 50%;
     --rain: 210 70% 60%;
     --storm: 250 60% 55%;
@@ -69,27 +69,27 @@
     --water-scarcity: 30 85% 50%;
     --hazard: 0 70% 50%;
 
-    /* UI elements */
+    
     --border: 210 20% 88%;
     --input: 210 20% 88%;
     --ring: 205 85% 35%;
     --radius: 0.625rem;
 
-    /* Gradients */
+    
     --gradient-hero: linear-gradient(135deg, hsl(205 85% 35%) 0%, hsl(175 60% 40%) 50%, hsl(152 55% 40%) 100%);
     --gradient-ocean: linear-gradient(180deg, hsl(205 85% 35%) 0%, hsl(210 70% 25%) 100%);
     --gradient-earth: linear-gradient(135deg, hsl(152 55% 40%) 0%, hsl(142 70% 40%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 20% 97%) 100%);
     --gradient-glass: linear-gradient(135deg, hsla(0 0% 100% / 0.8) 0%, hsla(0 0% 100% / 0.4) 100%);
 
-    /* Shadows */
+    
     --shadow-sm: 0 1px 3px hsla(215 25% 15% / 0.08);
     --shadow-md: 0 4px 12px hsla(215 25% 15% / 0.1);
     --shadow-lg: 0 8px 30px hsla(215 25% 15% / 0.12);
     --shadow-xl: 0 20px 50px hsla(215 25% 15% / 0.15);
     --shadow-glow: 0 0 40px hsla(205 85% 35% / 0.3);
 
-    /* Sidebar */
+    
     --sidebar-background: 210 25% 12%;
     --sidebar-foreground: 210 15% 90%;
     --sidebar-primary: 205 85% 50%;

@@ -35,14 +35,14 @@ export default function DashboardPage() {
           </p>
         </motion.div>
 
-        {/* Stats */}
+        {}
         <section className="mb-8">
           <StatsCards />
         </section>
 
-        {/* Main Content Grid */}
+        {}
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          {/* Map Preview */}
+          {}
           <Card className="lg:col-span-2 overflow-hidden">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
@@ -67,7 +67,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Recent Reports */}
+          {}
           <Card>
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
@@ -109,7 +109,7 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {/* Charts Grid */}
+        {}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <WeeklyReportsChart />
           <IncidentTypePieChart />

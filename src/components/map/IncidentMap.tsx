@@ -237,10 +237,10 @@ export function IncidentMap({
 
         <MapControls />
 
-        {/* Alert Zones */}
+        {}
         <AlertZones show={showAlertZones} />
 
-        {/* Incident Markers */}
+        {}
         <IncidentMarkers
           reports={filteredReports}
           onMarkerClick={setSelectedReport}
@@ -248,7 +248,7 @@ export function IncidentMap({
         <MapUpdater center={searchCenter} />
       </MapContainer>
 
-      {/* Search Overlay */}
+      {}
       <Card className="absolute left-1/2 -translate-x-1/2 top-4 z-[1000] p-2 w-[90%] max-w-md bg-card/95 backdrop-blur-sm shadow-md">
         <div className="relative flex items-center">
           <MapPin className="absolute left-3 text-muted-foreground" size={18} />
@@ -281,7 +281,7 @@ export function IncidentMap({
         )}
       </Card>
 
-      {/* Filters Panel */}
+      {}
       {showFilters && (
         <Card className="absolute left-4 top-4 z-[1000] p-4 w-64 bg-card/95 backdrop-blur-sm">
           <div className="flex items-center gap-2 mb-4">
@@ -343,7 +343,7 @@ export function IncidentMap({
       )
       }
 
-      {/* Legend */}
+      {}
       {
         showLegend && (
           <Card className="absolute left-4 bottom-4 z-[1000] p-3 bg-card/95 backdrop-blur-sm">
@@ -367,7 +367,7 @@ export function IncidentMap({
         )
       }
 
-      {/* Selected Report Panel */}
+      {}
       {
         selectedReport && (
           <Card className="absolute right-4 bottom-4 z-[1000] p-4 w-80 bg-card/95 backdrop-blur-sm">

@@ -81,7 +81,7 @@ export function ReportsTable() {
 
   return (
     <Card className="overflow-hidden">
-      {/* Toolbar */}
+      {}
       <div className="p-4 border-b flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search
@@ -127,7 +127,7 @@ export function ReportsTable() {
         </div>
       </div>
 
-      {/* Bulk Actions */}
+      {}
       {selectedReports.length > 0 && (
         <div className="px-4 py-2 bg-primary/5 border-b flex items-center gap-4">
           <span className="text-sm font-medium">
@@ -148,7 +148,7 @@ export function ReportsTable() {
         </div>
       )}
 
-      {/* Table */}
+      {}
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -249,7 +249,7 @@ export function ReportsTable() {
         </Table>
       </div>
 
-      {/* Pagination */}
+      {}
       <div className="p-4 border-t flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
           Showing {filteredReports.length} of {mockReports.length} reports

@@ -87,7 +87,7 @@ export function ReportForm() {
     if (e.target.files && e.target.files.length > 0) {
       setMediaFiles(prev => [...prev, ...Array.from(e.target.files!)]);
     }
-    e.target.value = ''; // allow picking the same photo consecutively
+    e.target.value = ''; 
   };
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export function ReportForm() {
 
   return (
     <Card className="max-w-2xl mx-auto overflow-hidden">
-      {/* Progress Bar */}
+      {}
       <div className="h-1 bg-muted">
         <motion.div
           className="h-full gradient-hero"
@@ -182,7 +182,7 @@ export function ReportForm() {
       </CardHeader>
 
       <CardContent className="pb-8">
-        {/* Step 1: Incident Type */}
+        {}
         {step === 1 && (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -225,7 +225,7 @@ export function ReportForm() {
           </motion.div>
         )}
 
-        {/* Step 2: Severity & Details */}
+        {}
         {step === 2 && (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -414,7 +414,7 @@ export function ReportForm() {
           </motion.div>
         )}
 
-        {/* Step 4: Media Upload */}
+        {}
         {step === 4 && (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -501,7 +501,7 @@ export function ReportForm() {
           </motion.div>
         )}
 
-        {/* Navigation Buttons */}
+        {}
         <div className="flex items-center justify-between mt-8 pt-6 border-t">
           <Button
             variant="outline"

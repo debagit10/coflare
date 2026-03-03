@@ -44,7 +44,7 @@ export function AlertsList() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="relative flex-1 max-w-md">
           <Search
@@ -64,7 +64,7 @@ export function AlertsList() {
         </Button>
       </div>
 
-      {/* Stats */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="p-4">
           <div className="flex items-center gap-3">
@@ -103,7 +103,7 @@ export function AlertsList() {
         </Card>
       </div>
 
-      {/* Alerts List */}
+      {}
       <div className="space-y-4">
         {filteredAlerts.map((alert, index) => (
           <motion.div

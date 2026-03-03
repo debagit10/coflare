@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Globe,
   Menu,
@@ -23,52 +23,54 @@ import {
   Settings,
   LogOut,
   Plus,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: '/map', label: 'Live Map', icon: MapPin },
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/reports', label: 'Reports', icon: FileText },
-  { href: '/alerts', label: 'Alerts', icon: AlertTriangle },
+  { href: "/map", label: "Live Map", icon: MapPin },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/reports", label: "Reports", icon: FileText },
+  { href: "/alerts", label: "Alerts", icon: AlertTriangle },
 ];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const isLanding = location.pathname === '/';
+  const isLanding = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isLanding && !isScrolled ? 'bg-transparent' : 'bg-background/95 backdrop-blur-xl border-b shadow-sm'
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isLanding && !isScrolled
+          ? "bg-transparent"
+          : "bg-background/95 backdrop-blur-xl border-b shadow-sm",
       )}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
+          {}
           <Link to="/" className="flex items-center group">
             <img
               src="/logo.png"
               alt="Co-flare Logo"
               className={cn(
-                "h-14 md:h-28 w-auto object-contain transition-transform group-hover:scale-105",
-                isLanding && !isScrolled ? "brightness-0 invert" : ""
+                "h-14 md:h-60 w-auto object-contain transition-transform group-hover:scale-105",
+                isLanding && !isScrolled ? "brightness-0 invert" : "",
               )}
             />
           </Link>
 
-          {/* Desktop Navigation */}
+          {}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.href;
@@ -77,14 +79,14 @@ export function Header() {
                   key={link.href}
                   to={link.href}
                   className={cn(
-                    'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
+                    "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
                     isLanding && !isScrolled
                       ? isActive
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/80 hover:text-white hover:bg-white/10'
+                        ? "bg-white/20 text-white"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
                       : isActive
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
                   )}
                 >
                   <link.icon size={18} />
@@ -94,7 +96,7 @@ export function Header() {
             })}
           </nav>
 
-          {/* Actions */}
+          {}
           <div className="flex items-center gap-3">
             <Link to="/submit" className="hidden sm:block">
               <Button className="gap-2 shadow-lg hover:shadow-xl transition-shadow">
@@ -103,26 +105,30 @@ export function Header() {
               </Button>
             </Link>
 
-            {/* Notifications */}
+            {}
             <Button
               variant="ghost"
               size="icon"
               className={cn(
-                'relative',
-                isLanding && !isScrolled ? 'text-white hover:bg-white/10' : ''
+                "relative",
+                isLanding && !isScrolled ? "text-white hover:bg-white/10" : "",
               )}
             >
               <Bell size={20} />
               <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
             </Button>
 
-            {/* User Menu */}
+            {}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className={cn(
-                  'rounded-full transition-colors',
-                  isLanding && !isScrolled ? 'hover:bg-white/10' : ''
-                )}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "rounded-full transition-colors",
+                    isLanding && !isScrolled ? "hover:bg-white/10" : "",
+                  )}
+                >
                   <Avatar className="h-8 w-8">
                     <AvatarFallback className="bg-primary text-primary-foreground text-sm">
                       AJ
@@ -133,7 +139,9 @@ export function Header() {
               <DropdownMenuContent align="end" className="w-56">
                 <div className="px-3 py-2">
                   <p className="font-medium">Adebayo Johnson</p>
-                  <p className="text-sm text-muted-foreground">adebayo@example.com</p>
+                  <p className="text-sm text-muted-foreground">
+                    adebayo@example.com
+                  </p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -149,14 +157,20 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/settings" className="gap-2 cursor-pointer text-foreground">
+                  <Link
+                    to="/settings"
+                    className="gap-2 cursor-pointer text-foreground"
+                  >
                     <Settings size={16} />
                     Settings
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/login" className="gap-2 cursor-pointer text-destructive">
+                  <Link
+                    to="/login"
+                    className="gap-2 cursor-pointer text-destructive"
+                  >
                     <LogOut size={16} />
                     Sign Out
                   </Link>
@@ -164,11 +178,14 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Mobile Menu Toggle */}
+            {}
             <Button
               variant="ghost"
               size="icon"
-              className={cn('lg:hidden', isLanding && !isScrolled ? 'text-white hover:bg-white/10' : '')}
+              className={cn(
+                "lg:hidden",
+                isLanding && !isScrolled ? "text-white hover:bg-white/10" : "",
+              )}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -177,12 +194,12 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-background border-b"
           >
@@ -195,10 +212,10 @@ export function Header() {
                     to={link.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(
-                      'flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors',
+                      "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors",
                       isActive
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
                     )}
                   >
                     <link.icon size={20} />

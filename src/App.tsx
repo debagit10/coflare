@@ -44,7 +44,7 @@ const App = () => (
           <Route path="/terms" element={<TermsOfServicePage />} />
           <Route path="/data-policy" element={<DataPolicyPage />} />
           <Route path="/cookies" element={<CookiePolicyPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

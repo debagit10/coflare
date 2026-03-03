@@ -17,10 +17,7 @@ export default function MyReportsPage() {
                     </p>
                 </motion.div>
 
-                {/* 
-          In a real app, this would be filtered by the current user's ID.
-          For the demo, we reuse the ReportsTable which shows mock data.
-        */}
+                {}
                 <ReportsTable />
             </div>
         </DashboardLayout>
