@@ -47,7 +47,7 @@ export function Footer() {
               <img
                 src="/logo.png"
                 alt="Co-flare Logo"
-                className="h-44 w-auto object-contain"
+                className="h-36 w-auto object-contain"
               />
             </Link>
             <p className="text-sidebar-foreground/70 text-sm mb-6 max-w-xs">

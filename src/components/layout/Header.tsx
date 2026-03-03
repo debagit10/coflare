@@ -64,7 +64,7 @@ export function Header() {
               src="/logo.png"
               alt="Co-flare Logo"
               className={cn(
-                "h-14 md:h-60 w-auto object-contain transition-transform group-hover:scale-105",
+                "h-36 md:h-60 w-auto object-contain transition-transform group-hover:scale-105",
                 isLanding && !isScrolled ? "brightness-0 invert" : "",
               )}
             />
