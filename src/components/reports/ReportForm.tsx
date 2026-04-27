@@ -1,20 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Checkbox } from '@/components/ui/checkbox';
-import { IncidentType, SeverityLevel, incidentTypeConfig, severityLabels } from '@/types';
+} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  IncidentType,
+  SeverityLevel,
+  incidentTypeConfig,
+  severityLabels,
+} from "@/types";
 import {
   MapPin,
   Upload,
@@ -34,8 +39,10 @@ import {
   Loader2,
   Locate,
   X,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { supabase } from "@/utils/supabase";
+import { useNavigate } from "react-router-dom";
 
 const iconMap = {
   Waves,
@@ -49,33 +56,39 @@ const iconMap = {
 };
 
 const waterDepthOptions = [
-  { value: 'ankle', label: 'Ankle deep (~15cm)' },
-  { value: 'knee', label: 'Knee deep (~45cm)' },
-  { value: 'waist', label: 'Waist deep (~100cm)' },
-  { value: 'above', label: 'Above waist (>100cm)' },
+  { value: "ankle", label: "Ankle deep (~15cm)" },
+  { value: "knee", label: "Knee deep (~45cm)" },
+  { value: "waist", label: "Waist deep (~100cm)" },
+  { value: "above", label: "Above waist (>100cm)" },
 ];
 
 const infrastructureOptions = [
-  'Road blocked',
-  'Bridge damaged',
-  'House flooded',
-  'Power outage',
-  'Vehicles stranded',
-  'Trees fallen',
-  'Other',
+  "Road blocked",
+  "Bridge damaged",
+  "House flooded",
+  "Power outage",
+  "Vehicles stranded",
+  "Trees fallen",
+  "Other",
 ];
 
 export function ReportForm() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [incidentType, setIncidentType] = useState<IncidentType | null>(null);
   const [severity, setSeverity] = useState<SeverityLevel | null>(null);
-  const [description, setDescription] = useState('');
-  const [waterDepth, setWaterDepth] = useState('');
+  const [description, setDescription] = useState("");
+  const [waterDepth, setWaterDepth] = useState("");
   const [infrastructure, setInfrastructure] = useState<string[]>([]);
   const [isLocating, setIsLocating] = useState(false);
-  const [location, setLocation] = useState<{ lat: number; lng: number; name: string } | null>(null);
+  const [location, setLocation] = useState<{
+    lat: number;
+    lng: number;
+    name: string;
+  } | null>(null);
 
-  const [addressQuery, setAddressQuery] = useState('');
+  const [addressQuery, setAddressQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [mediaFiles, setMediaFiles] = useState<File[]>([]);
@@ -85,9 +98,9 @@ export function ReportForm() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setMediaFiles(prev => [...prev, ...Array.from(e.target.files!)]);
+      setMediaFiles((prev) => [...prev, ...Array.from(e.target.files!)]);
     }
-    e.target.value = ''; 
+    e.target.value = "";
   };
 
   useEffect(() => {
@@ -98,11 +111,13 @@ export function ReportForm() {
       }
       setIsSearching(true);
       try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressQuery)}&limit=5`);
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressQuery)}&limit=5`,
+        );
         const data = await res.json();
         setSuggestions(data);
       } catch (error) {
-        console.error('Failed to fetch address suggestions:', error);
+        console.error("Failed to fetch address suggestions:", error);
       } finally {
         setIsSearching(false);
       }
@@ -122,13 +137,15 @@ export function ReportForm() {
           setLocation({
             lat,
             lng,
-            name: 'Detecting address...',
+            name: "Detecting address...",
           });
 
           try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
+            );
             const data = await res.json();
-            const displayName = data.display_name || 'Unknown Location';
+            const displayName = data.display_name || "Unknown Location";
             setLocation({
               lat,
               lng,
@@ -139,26 +156,62 @@ export function ReportForm() {
             setLocation({
               lat,
               lng,
-              name: 'Location found (Address lookup failed)',
+              name: "Location found (Address lookup failed)",
             });
           } finally {
             setIsLocating(false);
           }
         },
         (error) => {
-          console.error('Geolocation error:', error);
+          console.error("Geolocation error:", error);
           setIsLocating(false);
-        }
+        },
       );
     } else {
       setIsLocating(false);
     }
   };
 
-  const isFloodRelated = incidentType === 'flood' || incidentType === 'rain';
+  const isFloodRelated = incidentType === "flood" || incidentType === "rain";
 
   const totalSteps = 4;
   const progress = (step / totalSteps) * 100;
+
+  const payload = {
+    incident_type: incidentType,
+    location_name: location?.name,
+    latitude: location?.lat,
+    longitude: location?.lng,
+    infrastructure,
+    water_depth: waterDepth,
+    description,
+    severity,
+  };
+
+  const submit = async () => {
+    setIsLoading(true);
+
+    const { success, error } = await supabase
+      .from("reports")
+      .insert([
+        { ...payload, user_id: "9c9bdce4-2078-41e3-a461-4ed4bd293ed0" },
+      ]);
+
+    if (error) {
+      alert(error.message);
+      setIsLoading(false);
+      return;
+    }
+
+    if (success) {
+      alert("Report sent successfully");
+      setIsLoading(false);
+
+      setTimeout(() => {
+        navigate("/reports");
+      }, 500);
+    }
+  };
 
   return (
     <Card className="max-w-2xl mx-auto overflow-hidden">
@@ -193,34 +246,37 @@ export function ReportForm() {
               What type of incident are you reporting?
             </Label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {(Object.keys(incidentTypeConfig) as IncidentType[]).map((type) => {
-                const config = incidentTypeConfig[type];
-                const IconComponent = iconMap[config.icon as keyof typeof iconMap];
-                const isSelected = incidentType === type;
+              {(Object.keys(incidentTypeConfig) as IncidentType[]).map(
+                (type) => {
+                  const config = incidentTypeConfig[type];
+                  const IconComponent =
+                    iconMap[config.icon as keyof typeof iconMap];
+                  const isSelected = incidentType === type;
 
-                return (
-                  <button
-                    key={type}
-                    onClick={() => setIncidentType(type)}
-                    className={cn(
-                      'p-4 rounded-xl border-2 transition-all text-left hover:shadow-md',
-                      isSelected
-                        ? 'border-primary bg-primary/5 shadow-md'
-                        : 'border-border hover:border-primary/50'
-                    )}
-                  >
-                    <div
+                  return (
+                    <button
+                      key={type}
+                      onClick={() => setIncidentType(type)}
                       className={cn(
-                        'w-10 h-10 rounded-lg flex items-center justify-center mb-2',
-                        `incident-${type}`
+                        "p-4 rounded-xl border-2 transition-all text-left hover:shadow-md",
+                        isSelected
+                          ? "border-primary bg-primary/5 shadow-md"
+                          : "border-border hover:border-primary/50",
                       )}
                     >
-                      {IconComponent && <IconComponent size={20} />}
-                    </div>
-                    <p className="font-medium text-sm">{config.label}</p>
-                  </button>
-                );
-              })}
+                      <div
+                        className={cn(
+                          "w-10 h-10 rounded-lg flex items-center justify-center mb-2",
+                          `incident-${type}`,
+                        )}
+                      >
+                        {IconComponent && <IconComponent size={20} />}
+                      </div>
+                      <p className="font-medium text-sm">{config.label}</p>
+                    </button>
+                  );
+                },
+              )}
             </div>
           </motion.div>
         )}
@@ -234,20 +290,27 @@ export function ReportForm() {
             className="space-y-6"
           >
             <div>
-              <Label className="text-base mb-4 block">How severe is this incident?</Label>
+              <Label className="text-base mb-4 block">
+                How severe is this incident?
+              </Label>
               <div className="flex gap-2">
                 {([1, 2, 3, 4, 5] as SeverityLevel[]).map((level) => (
                   <button
                     key={level}
                     onClick={() => setSeverity(level)}
                     className={cn(
-                      'flex-1 py-4 rounded-lg border-2 transition-all flex flex-col items-center gap-1',
+                      "flex-1 py-4 rounded-lg border-2 transition-all flex flex-col items-center gap-1",
                       severity === level
-                        ? 'border-primary shadow-md'
-                        : 'border-border hover:border-primary/50'
+                        ? "border-primary shadow-md"
+                        : "border-border hover:border-primary/50",
                     )}
                   >
-                    <span className={cn('w-4 h-4 rounded-full', `severity-${level}`)} />
+                    <span
+                      className={cn(
+                        "w-4 h-4 rounded-full",
+                        `severity-${level}`,
+                      )}
+                    />
                     <span className="font-medium">{level}</span>
                     <span className="text-xs text-muted-foreground">
                       {severityLabels[level]}
@@ -272,22 +335,30 @@ export function ReportForm() {
 
             {isFloodRelated && (
               <div>
-                <Label className="text-base mb-3 block">Water depth (optional)</Label>
+                <Label className="text-base mb-3 block">
+                  Water depth (optional)
+                </Label>
                 <RadioGroup value={waterDepth} onValueChange={setWaterDepth}>
                   <div className="grid grid-cols-2 gap-3">
                     {waterDepthOptions.map((option) => (
                       <div
                         key={option.value}
                         className={cn(
-                          'flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors',
+                          "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors",
                           waterDepth === option.value
-                            ? 'border-primary bg-primary/5'
-                            : 'border-border hover:border-primary/50'
+                            ? "border-primary bg-primary/5"
+                            : "border-border hover:border-primary/50",
                         )}
                         onClick={() => setWaterDepth(option.value)}
                       >
-                        <RadioGroupItem value={option.value} id={option.value} />
-                        <Label htmlFor={option.value} className="cursor-pointer">
+                        <RadioGroupItem
+                          value={option.value}
+                          id={option.value}
+                        />
+                        <Label
+                          htmlFor={option.value}
+                          className="cursor-pointer"
+                        >
                           {option.label}
                         </Label>
                       </div>
@@ -298,7 +369,9 @@ export function ReportForm() {
             )}
 
             <div>
-              <Label className="text-base mb-3 block">Infrastructure impact (optional)</Label>
+              <Label className="text-base mb-3 block">
+                Infrastructure impact (optional)
+              </Label>
               <div className="flex flex-wrap gap-2">
                 {infrastructureOptions.map((option) => (
                   <button
@@ -307,14 +380,14 @@ export function ReportForm() {
                       setInfrastructure((prev) =>
                         prev.includes(option)
                           ? prev.filter((i) => i !== option)
-                          : [...prev, option]
+                          : [...prev, option],
                       )
                     }
                     className={cn(
-                      'px-3 py-1.5 rounded-full text-sm border transition-colors',
+                      "px-3 py-1.5 rounded-full text-sm border transition-colors",
                       infrastructure.includes(option)
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border hover:border-primary/50'
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border hover:border-primary/50",
                     )}
                   >
                     {option}
@@ -334,7 +407,9 @@ export function ReportForm() {
             className="space-y-6"
           >
             <div>
-              <Label className="text-base mb-4 block">Where is this happening?</Label>
+              <Label className="text-base mb-4 block">
+                Where is this happening?
+              </Label>
               <Button
                 variant="outline"
                 className="w-full h-14 gap-3 text-base"
@@ -346,7 +421,7 @@ export function ReportForm() {
                 ) : (
                   <Locate size={20} />
                 )}
-                {isLocating ? 'Detecting location...' : 'Use Current Location'}
+                {isLocating ? "Detecting location..." : "Use Current Location"}
               </Button>
             </div>
 
@@ -371,7 +446,9 @@ export function ReportForm() {
                 <div className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">or enter manually</span>
+                <span className="bg-card px-2 text-muted-foreground">
+                  or enter manually
+                </span>
               </div>
             </div>
 
@@ -400,7 +477,7 @@ export function ReportForm() {
                         setLocation({
                           lat: parseFloat(suggestion.lat),
                           lng: parseFloat(suggestion.lon),
-                          name: suggestion.display_name
+                          name: suggestion.display_name,
                         });
                         setSuggestions([]);
                       }}
@@ -423,12 +500,30 @@ export function ReportForm() {
             className="space-y-6"
           >
             <div className="flex flex-col gap-1">
-              <Label className="text-base block">Add evidence <span className="text-destructive">*</span></Label>
-              <span className="text-sm text-muted-foreground">Please upload at least one photo or video before submitting.</span>
+              <Label className="text-base block">
+                Add evidence <span className="text-destructive">*</span>
+              </Label>
+              <span className="text-sm text-muted-foreground">
+                Please upload at least one photo or video before submitting.
+              </span>
             </div>
 
-            <input type="file" accept="image/*,video/*" className="hidden" ref={fileInputRef} onChange={handleFileChange} multiple />
-            <input type="file" accept="image/*,video/*" capture="environment" className="hidden" ref={cameraInputRef} onChange={handleFileChange} />
+            <input
+              type="file"
+              accept="image/*,video/*"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              multiple
+            />
+            <input
+              type="file"
+              accept="image/*,video/*"
+              capture="environment"
+              className="hidden"
+              ref={cameraInputRef}
+              onChange={handleFileChange}
+            />
 
             <div className="grid grid-cols-2 gap-4">
               <button
@@ -439,8 +534,12 @@ export function ReportForm() {
                   <Upload size={24} className="text-primary" />
                 </div>
                 <div className="text-center">
-                  <span className="text-sm font-medium block">Upload Photo</span>
-                  <span className="text-xs text-muted-foreground">From Gallery</span>
+                  <span className="text-sm font-medium block">
+                    Upload Photo
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    From Gallery
+                  </span>
                 </div>
               </button>
               <button
@@ -452,22 +551,35 @@ export function ReportForm() {
                 </div>
                 <div className="text-center">
                   <span className="text-sm font-medium block">Take Photo</span>
-                  <span className="text-xs text-muted-foreground">Use Camera</span>
+                  <span className="text-xs text-muted-foreground">
+                    Use Camera
+                  </span>
                 </div>
               </button>
             </div>
 
             {mediaFiles.length > 0 ? (
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Uploaded Media ({mediaFiles.length})</Label>
+                <Label className="text-sm font-medium">
+                  Uploaded Media ({mediaFiles.length})
+                </Label>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                   {mediaFiles.map((file, index) => (
-                    <div key={index} className="relative aspect-square rounded-xl overflow-hidden border shadow-sm group">
-                      <img src={URL.createObjectURL(file)} alt="Preview" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                    <div
+                      key={index}
+                      className="relative aspect-square rounded-xl overflow-hidden border shadow-sm group"
+                    >
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt="Preview"
+                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                      />
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          setMediaFiles(prev => prev.filter((_, i) => i !== index));
+                          setMediaFiles((prev) =>
+                            prev.filter((_, i) => i !== index),
+                          );
                         }}
                         className="absolute top-2 right-2 w-7 h-7 bg-black/60 hover:bg-destructive backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors"
                       >
@@ -517,8 +629,7 @@ export function ReportForm() {
             <Button
               onClick={() => setStep((s) => s + 1)}
               disabled={
-                (step === 1 && !incidentType) ||
-                (step === 2 && !severity)
+                (step === 1 && !incidentType) || (step === 2 && !severity)
               }
               className="gap-2"
             >
@@ -526,9 +637,19 @@ export function ReportForm() {
               <ChevronRight size={18} />
             </Button>
           ) : (
-            <Button className="gap-2 px-8" disabled={mediaFiles.length === 0}>
-              <Check size={18} />
-              Submit Report
+            <Button
+              className="gap-2 px-8"
+              //disabled={mediaFiles.length === 0}
+              onClick={submit}
+            >
+              {isLoading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <>
+                  <Check size={18} />
+                  Submit Report
+                </>
+              )}
             </Button>
           )}
         </div>

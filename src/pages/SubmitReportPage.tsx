@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { ReportForm } from '@/components/reports/ReportForm';
+import { motion } from "framer-motion";
+import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { ReportForm } from "@/components/reports/ReportForm";
 
 export default function SubmitReportPage() {
   return (
