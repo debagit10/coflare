@@ -108,79 +108,86 @@ export function Header() {
             </Link>
 
             {}
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "relative",
-                isLanding && !isScrolled ? "text-white hover:bg-white/10" : "",
-              )}
-            >
-              <Bell size={20} />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
-            </Button>
-
-            {}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            {user?.id && (
+              <>
                 <Button
                   variant="ghost"
                   size="icon"
                   className={cn(
-                    "rounded-full transition-colors",
-                    isLanding && !isScrolled ? "hover:bg-white/10" : "",
+                    "relative",
+                    isLanding && !isScrolled
+                      ? "text-white hover:bg-white/10"
+                      : "",
                   )}
                 >
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                      {user?.name
-                        ?.split(" ")
-                        .map((n) => n[0])
-                        .join("")
-                        .toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
+                  <Bell size={20} />
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <div className="px-3 py-2">
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-sm text-muted-foreground">{user.email} </p>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/dashboard" className="gap-2 cursor-pointer">
-                    <LayoutDashboard size={16} />
-                    Dashboard
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/my-reports" className="gap-2 cursor-pointer">
-                    <FileText size={16} />
-                    My Reports
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link
-                    to="/settings"
-                    className="gap-2 cursor-pointer text-foreground"
-                  >
-                    <Settings size={16} />
-                    Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link
-                    to="/login"
-                    className="gap-2 cursor-pointer text-destructive"
-                  >
-                    <LogOut size={16} />
-                    Sign Out
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={cn(
+                        "rounded-full transition-colors",
+                        isLanding && !isScrolled ? "hover:bg-white/10" : "",
+                      )}
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback className="bg-primary text-primary-foreground text-sm">
+                          {user?.name
+                            ?.split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                            .toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-3 py-2">
+                      <p className="font-medium">{user.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {user.email}{" "}
+                      </p>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard" className="gap-2 cursor-pointer">
+                        <LayoutDashboard size={16} />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/my-reports" className="gap-2 cursor-pointer">
+                        <FileText size={16} />
+                        My Reports
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        to="/settings"
+                        className="gap-2 cursor-pointer text-foreground"
+                      >
+                        <Settings size={16} />
+                        Settings
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link
+                        to="/login"
+                        className="gap-2 cursor-pointer text-destructive"
+                      >
+                        <LogOut size={16} />
+                        Sign Out
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            )}
 
             {}
             <Button
