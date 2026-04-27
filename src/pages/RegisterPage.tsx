@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { RegisterForm } from '@/components/auth/AuthForms';
+import { motion } from "framer-motion";
+import { RegisterForm } from "@/components/auth/AuthForms";
 
 export default function RegisterPage() {
   return (
