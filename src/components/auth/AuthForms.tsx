@@ -27,8 +27,11 @@ import {
 
 import { supabase } from "@/utils/supabase";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/utils/useAuthStore";
 
 export function LoginForm() {
+  const { setUser } = useAuthStore();
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +78,12 @@ export function LoginForm() {
     }
 
     if (data.user) {
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.user_metadata.name,
+        phone: data.user.phone,
+      });
       navigate("/dashboard");
     }
 
@@ -175,6 +184,7 @@ export function LoginForm() {
 }
 
 export function RegisterForm() {
+  const { setUser } = useAuthStore();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -214,10 +224,10 @@ export function RegisterForm() {
     const { data, error } = await supabase.auth.signUp({
       email: signinData.email,
       password: signinData.password,
-      phone: signinData.phone,
       options: {
         data: {
           name: signinData.name,
+          phone: signinData.phone,
         },
       },
     });
@@ -236,6 +246,12 @@ export function RegisterForm() {
     }
 
     if (data.user) {
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.user_metadata.name,
+        phone: data.user.phone,
+      });
       navigate("/dashboard");
     }
 

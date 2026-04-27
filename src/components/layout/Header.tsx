@@ -25,6 +25,7 @@ import {
   Plus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/utils/useAuthStore";
 
 const navLinks = [
   { href: "/map", label: "Live Map", icon: MapPin },
@@ -34,6 +35,7 @@ const navLinks = [
 ];
 
 export function Header() {
+  const { user } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
@@ -131,17 +133,19 @@ export function Header() {
                 >
                   <Avatar className="h-8 w-8">
                     <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                      AJ
+                      {user?.name
+                        ?.split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="px-3 py-2">
-                  <p className="font-medium">Adebayo Johnson</p>
-                  <p className="text-sm text-muted-foreground">
-                    adebayo@example.com
-                  </p>
+                  <p className="font-medium">{user.name}</p>
+                  <p className="text-sm text-muted-foreground">{user.email} </p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
